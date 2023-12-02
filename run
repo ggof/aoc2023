@@ -1,0 +1,3 @@
+#! /usr/bin/fish
+
+fnl --compile solutions/$argv[1].fnl | luajit
