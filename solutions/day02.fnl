@@ -1,3 +1,4 @@
+(local {: time} (require :libs.time))
 (local f (require :libs.fun))
 (local max-red 12)
 (local max-green 13)
@@ -41,6 +42,6 @@
        (f.map power-of)
        (f.sum)))
 
-(let [lines (icollect [l (io.lines "inputs/day02.txt")] l)]
-  (print (part-1 lines))
-  (print (part-2 lines)))
+(local lines (icollect [l (io.lines "inputs/day02.txt")] l))
+(time 1 #(part-1 lines))
+(time 2 #(part-2 lines))
