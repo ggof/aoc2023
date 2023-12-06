@@ -1,22 +1,30 @@
-(local f (require :libs.fun))
 (local {: time } (require :libs/time))
 
-(fn drop-game-nb [line]
-  (let [(_ e) (line:find ":")]
-    (line:sub (+ e 1))))
+(fn intersection [a b]
+  (icollect [_ v (ipairs a)]
+    ()))
 
-(fn split [char line]
-  (icollect [v (string.gmatch line (.. "[^" char "]+"))] v))
+(fn toset [table]
+  (collect [_ k (ipairs table)] k true))
+
+(fn take [nb t] (fcollect [i 1 nb] (. t i)))
+
+(fn drop [nb t] (fcollect [i (+ nb 1) (length t)] (. t i)))
+
+(fn drop-game-nb [line] (line:sub 10))
 
 (fn split-numbers [part]
   (icollect [v (part:gmatch "%d+")] v))
 
 (fn split-parts [line]
-  (icollect [_ v (ipairs (split "|" line))] (split-numbers v)))
+  (let [all (split-numbers line)
+        wins (toset (take 10 all))
+        ours (toset (drop 10 all))]
+    [wins ours]))
 
 (fn count-matching-numbers [[wins ours]]
-  (accumulate [acc 0 _ v (ipairs wins)]
-    (if (f.index v ours) (+ 1 acc) acc)))
+  (accumulate [acc 0 k _ (pairs wins)]
+    (if (. ours k) (+ 1 acc) acc)))
 
 (fn power-of-2 [nb]
   (if (= nb 0)
