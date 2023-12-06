@@ -19,13 +19,12 @@
     (- x2 x1)))
 
 (fn part-1 [lines]
-  (local [times dists] (icollect [_ l (ipairs lines)] (string->numbers l)))
-  (local races (icollect [i t (ipairs times)] (range -1 t (- (. dists i)))))
-  (f.product races))
+  (let [[times dists] (f.totable (f.map string->numbers lines))]
+    (f.product (f.map #(range -1 $1 (- $2)) (f.zip times dists)))))
 
 (fn part-2 [lines] 
-  (let [[time dist] (icollect [_ l (ipairs lines)] (string->number l))]
-  (range -1 time (- dist))))
+  (let [[time dist] (f.totable (f.map string->number lines))]
+    (range -1 time (- dist))))
 
 (local lines (icollect [v (io.lines :inputs/day06.txt)] v))
 
