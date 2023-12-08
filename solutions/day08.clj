@@ -6,7 +6,7 @@
          [step & steps] (cycle instructions)
          cnt 0]
     (if (= cur "ZZZ") cnt
-        (recur ((graph cur) (if (= step "L") 0 1)) steps (inc cnt)))))
+        (recur ((graph cur) (if (= step \L) 0 1)) steps (inc cnt)))))
 
 (defn main []
   (let [input (slurp "inputs/day08.txt")
@@ -16,4 +16,4 @@
                            {k [l r]})))]
     (part-1 graph instructions)))
 
-(time main)
+(println (time (main)))
