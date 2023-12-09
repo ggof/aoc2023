@@ -2,11 +2,9 @@
   (:require [clojure.java.io :refer [reader]]
             [clojure.string :as str]))
 
-(defn digits [line]
-  (map #(Integer/parseInt %) (str/split line #"\s")))
+(defn digits [line] (map #(Integer/parseInt %) (str/split line #"\s")))
 
-(defn diffs [digits]
-  (map (fn [[a b]] (- b a)) (partition 2 1 digits)))
+(defn diffs [digits] (map (fn [a b] (- b a)) digits (drop 1 digits)))
 
 (defn next-number [digits]
   (loop [acc (last digits)
