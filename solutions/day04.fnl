@@ -1,11 +1,6 @@
 (local {: time } (require :libs/time))
 
-(fn intersection [a b]
-  (icollect [_ v (ipairs a)]
-    ()))
-
-(fn toset [table]
-  (collect [_ k (ipairs table)] k true))
+(fn toset [table] (collect [_ k (ipairs table)] k true))
 
 (fn take [nb t] (fcollect [i 1 nb] (. t i)))
 
