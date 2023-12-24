@@ -1,3 +1,5 @@
 #! /usr/bin/fish
 
-fnl --require-as-include --compile solutions/$argv[1].fnl | luajit
+fnl --require-as-include solutions/$argv[1].fnl < inputs/$argv[1].txt
+
+# fnl --require-as-include --compile solutions/$argv[1].fnl | luajit < inputs/$argv[1].txt

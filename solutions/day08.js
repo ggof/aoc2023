@@ -12,9 +12,25 @@ function part1(graph, instructions) {
   return cnt
 }
 
+function binadryGCD(a, b) {
+  while (true) {
+    a >>>= Math.clz32(a)
+    b >>>= Math.clz32(b)
+
+    if (a == b) return a
+
+    if (a < b) b = b - a
+    else a = a - b
+  }
+}
+
+function LCM(arr) {
+  return arr.reduce((x, y) => (x * y) / binadryGCD(x, y))
+}
+
 function part2(graph, instructions) {
   let curs = Object.keys(graph).filter(it => it.endsWith("A"))
-  let cycles = curs.map((cur, i) => {
+  let cycles = curs.map((cur) => {
     let cnt = 0
     while (!cur.endsWith("Z")) {
       cur = graph[cur][instructions[cnt++ % instructions.length]]
@@ -22,12 +38,8 @@ function part2(graph, instructions) {
     return cnt
   })
 
-  const gcd = (x, y) => (y === 0 ? x : gcd(y, x % y))
-  const lcm = (arr) => arr.reduce((x, y) => (x * y) / gcd(x, y))
-
-  return lcm(cycles)
+  return LCM(cycles)
 }
-
 
 const input = fs.readFileSync("inputs/day08.txt").toString()
 
@@ -40,9 +52,12 @@ const nodes = nodesPart.split("\n").map(it => it.trim()).reduce((acc, cur) => {
   return acc
 }, {})
 
-const s = Date.now()
-console.log("part 1", part1(nodes, instructions))
-console.log("took %d ms", Date.now() - s)
-const s2 = Date.now()
-console.log("part 2", part2(nodes, instructions))
-console.log("took %d ms", Date.now() - s2)
+const time = (fn) => {
+  const now = performance.now()
+  const result = fn()
+  const elapsed = performance.now() - now
+  return [result, elapsed]
+}
+
+console.log("Part 1: %d in %d", ...time(part1.bind(null, nodes, instructions)))
+console.log("Part 2: %d in %d", ...time(part2.bind(null, nodes, instructions)))
